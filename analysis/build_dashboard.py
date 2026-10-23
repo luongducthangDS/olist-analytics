@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 
 import duckdb
-import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,13 +31,13 @@ fig = make_subplots(
     specs=[[{"secondary_y": True}, {}], [{}, {}]],
 )
 fig.add_bar(x=monthly.purchase_month, y=monthly.orders, name="orders", marker_color="#BFDBFE", row=1, col=1)
-fig.add_scatter(x=monthly.purchase_month, y=monthly.late_rate, name="late rate", line=dict(color=RED, width=2.5),
+fig.add_scatter(x=monthly.purchase_month, y=monthly.late_rate, name="late rate", line={"color": RED, "width": 2.5},
                 row=1, col=1, secondary_y=True, hovertemplate="%{y:.1%}")
 fig.add_bar(x=[b["bucket"] for b in buckets], y=[b["avg_review"] for b in buckets],
             marker_color=[BLUE, RED, RED, RED], text=[f"{b['avg_review']:.2f}★" for b in buckets],
             textposition="outside", name="avg review", row=1, col=2)
 fig.add_scatter(x=states.orders, y=states.late_rate, mode="markers+text", text=states.customer_state,
-                textposition="top center", marker=dict(size=9, color=states.late_rate, colorscale="Reds"),
+                textposition="top center", marker={"size": 9, "color": states.late_rate, "colorscale": "Reds"},
                 name="state", hovertemplate="%{text}: %{y:.1%} late, %{x:,} orders", row=2, col=1)
 fig.add_bar(y=[r["route"] for r in routes][::-1], x=[r["excess_late"] for r in routes][::-1], orientation="h",
             marker_color=RED, name="excess late",
@@ -50,13 +49,13 @@ fig.update_xaxes(type="log", title_text="orders (log scale)", row=2, col=1)
 fig.update_yaxes(tickformat=".0%", row=2, col=1)
 k = res["kpis"]
 fig.update_layout(
-    height=900, template="plotly_white", showlegend=False, margin=dict(t=140),
-    title=dict(x=0.01, text=(
+    height=900, template="plotly_white", showlegend=False, margin={"t": 140},
+    title={"x": 0.01, "text": (
         f"<b>Olist: late deliveries cost reviews and repeat customers</b><br>"
         f"<span style='font-size:13px;color:{MUTED}'>{k['delivered_orders']:,} delivered orders · "
         f"{k['period']} · late rate {k['late_rate']:.1%} · avg review {k['avg_review']:.2f}★ · "
         f"late orders = 6.8% of orders but ~{res['impact']['share_of_negative_reviews_explained_by_lateness']:.0%} "
-        f"of 1-2★ reviews</span>")),
+        f"of 1-2★ reviews</span>")},
 )
 out = ROOT / "reports" / "dashboard.html"
 fig.write_html(out, include_plotlyjs="cdn", full_html=True)

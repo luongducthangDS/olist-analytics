@@ -14,7 +14,7 @@ import statsmodels.formula.api as smf
 from statsmodels.stats.proportion import proportions_ztest
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
 FIG = ROOT / "reports" / "figures"
@@ -44,14 +44,14 @@ def style(ax):
 def kpis(df):
     reviewed = df.dropna(subset=["review_score"])
     return {
-        "delivered_orders": int(len(df)),
+        "delivered_orders": len(df),
         "customers": int(df.customer_unique_id.nunique()),
         "period": f"{df.purchased_at.min():%Y-%m-%d} to {df.purchased_at.max():%Y-%m-%d}",
         "gmv_brl": round(float(df.order_value.sum()), 2),
         "late_rate": round(float(df.is_late.mean()), 4),
         "late_orders": int(df.is_late.sum()),
         "avg_review": round(float(reviewed.review_score.mean()), 3),
-        "reviewed_orders": int(len(reviewed)),
+        "reviewed_orders": len(reviewed),
     }
 
 
@@ -157,9 +157,9 @@ def repeat_after_late(df):
     g = eligible.groupby("first_late").repeat.agg(["sum", "count", "mean"])
     stat, p = proportions_ztest(g["sum"].values, g["count"].values)
     return {
-        "customers_overall": int(len(first)),
+        "customers_overall": len(first),
         "repeat_rate_overall": round(float((first.orders >= 2).mean()), 4),
-        "eligible_customers_180d": int(len(eligible)),
+        "eligible_customers_180d": len(eligible),
         "repeat_rate_first_on_time": round(float(g.loc[False, "mean"]), 4),
         "repeat_rate_first_late": round(float(g.loc[True, "mean"]), 4),
         "n_first_on_time": int(g.loc[False, "count"]),
@@ -217,7 +217,7 @@ def impact(df):
     excess_neg = late_n * (p_late - p_ok)
     total_neg = int((r.review_score <= 2).sum())
     return {"late_reviewed_orders": late_n,
-            "excess_negative_reviews_from_lateness": int(round(excess_neg)),
+            "excess_negative_reviews_from_lateness": round(excess_neg),
             "all_negative_reviews": total_neg,
             "share_of_negative_reviews_explained_by_lateness": round(float(excess_neg / total_neg), 4),
             "note": "upper bound if lateness were the only difference between late and on-time orders; "

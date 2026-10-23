@@ -76,3 +76,7 @@ python analysis/build_dashboard.py      # -> reports/dashboard.html + powerbi/*.
 2. Your regression has R² = 0.18. Is that a problem?
 3. Why could padding the promised delivery date be a bad fix, even though it reduces "late" orders?
 4. How would you design an experiment to prove that faster delivery brings customers back?
+
+## Data and license
+
+Code: MIT ([LICENSE](LICENSE)). Data: [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) (CC BY-NC-SA 4.0), downloaded by `scripts/get_data.py`.
