@@ -1,0 +1,215 @@
+{
+  "kpis": {
+    "delivered_orders": 96470,
+    "customers": 93350,
+    "period": "2016-09-15 to 2018-08-29",
+    "gmv_brl": 15423084.73,
+    "late_rate": 0.0677,
+    "late_orders": 6534,
+    "avg_review": 4.156,
+    "reviewed_orders": 95824
+  },
+  "lateness_buckets": [
+    {
+      "bucket": "On time",
+      "orders": 89443,
+      "avg_review": 4.2904,
+      "share_1_2_stars": 0.0927
+    },
+    {
+      "bucket": "1-3 days",
+      "orders": 1852,
+      "avg_review": 3.291,
+      "share_1_2_stars": 0.3213
+    },
+    {
+      "bucket": "4-7 days",
+      "orders": 1748,
+      "avg_review": 2.103,
+      "share_1_2_stars": 0.6768
+    },
+    {
+      "bucket": "8+ days",
+      "orders": 2781,
+      "avg_review": 1.6962,
+      "share_1_2_stars": 0.7929
+    }
+  ],
+  "regression": {
+    "n": 95824,
+    "raw_gap_stars": -2.02,
+    "ols_late_coef_stars": -2.0,
+    "ols_late_ci95": [
+      -2.039,
+      -1.96
+    ],
+    "ols_r2": 0.177,
+    "logit_late_marginal_effect_low_score": 0.2581,
+    "logit_late_me_ci95": [
+      0.2535,
+      0.2627
+    ],
+    "controls": "log order value, freight/price ratio, item count, same-state shipping, top-20 category, customer state"
+  },
+  "where_to_fix": {
+    "national_late_rate": 0.0677,
+    "worst_states": [
+      {
+        "customer_state": "AL",
+        "orders": 397,
+        "late_rate": 0.2141,
+        "late_orders": 85
+      },
+      {
+        "customer_state": "MA",
+        "orders": 717,
+        "late_rate": 0.1743,
+        "late_orders": 125
+      },
+      {
+        "customer_state": "SE",
+        "orders": 335,
+        "late_rate": 0.1522,
+        "late_orders": 51
+      },
+      {
+        "customer_state": "PI",
+        "orders": 476,
+        "late_rate": 0.1387,
+        "late_orders": 66
+      },
+      {
+        "customer_state": "CE",
+        "orders": 1279,
+        "late_rate": 0.1376,
+        "late_orders": 176
+      }
+    ],
+    "best_states": [
+      {
+        "customer_state": "MG",
+        "orders": 11354,
+        "late_rate": 0.0457,
+        "late_orders": 519
+      },
+      {
+        "customer_state": "SP",
+        "orders": 40494,
+        "late_rate": 0.0449,
+        "late_orders": 1820
+      },
+      {
+        "customer_state": "PR",
+        "orders": 4923,
+        "late_rate": 0.0404,
+        "late_orders": 199
+      }
+    ],
+    "top10_routes_by_excess_late": [
+      {
+        "route": "SP -> RJ",
+        "orders": 8154,
+        "late_rate": 0.1413,
+        "late_orders": 1152,
+        "excess_late": 599.7222
+      },
+      {
+        "route": "SP -> BA",
+        "orders": 2307,
+        "late_rate": 0.1287,
+        "late_orders": 297,
+        "excess_late": 140.7448
+      },
+      {
+        "route": "SP -> ES",
+        "orders": 1459,
+        "late_rate": 0.1234,
+        "late_orders": 180,
+        "excess_late": 81.1806
+      },
+      {
+        "route": "SP -> CE",
+        "orders": 969,
+        "late_rate": 0.1373,
+        "late_orders": 133,
+        "excess_late": 67.3688
+      },
+      {
+        "route": "SP -> SC",
+        "orders": 2326,
+        "late_rate": 0.0954,
+        "late_orders": 222,
+        "excess_late": 64.4579
+      },
+      {
+        "route": "SP -> MA",
+        "orders": 492,
+        "late_rate": 0.189,
+        "late_orders": 93,
+        "excess_late": 59.6764
+      },
+      {
+        "route": "PR -> RJ",
+        "orders": 970,
+        "late_rate": 0.1206,
+        "late_orders": 117,
+        "excess_late": 51.301
+      },
+      {
+        "route": "SP -> AL",
+        "orders": 255,
+        "late_rate": 0.2392,
+        "late_orders": 61,
+        "excess_late": 43.7286
+      },
+      {
+        "route": "SP -> PA",
+        "orders": 683,
+        "late_rate": 0.1201,
+        "late_orders": 82,
+        "excess_late": 35.7398
+      },
+      {
+        "route": "SP -> PE",
+        "orders": 1131,
+        "late_rate": 0.0981,
+        "late_orders": 111,
+        "excess_late": 34.3964
+      }
+    ],
+    "top10_routes_share_of_excess_late": 0.8754,
+    "top10_routes_share_of_orders": 0.1943
+  },
+  "repeat_purchase": {
+    "customers_overall": 93350,
+    "repeat_rate_overall": 0.03,
+    "eligible_customers_180d": 55905,
+    "repeat_rate_first_on_time": 0.0405,
+    "repeat_rate_first_late": 0.0297,
+    "n_first_on_time": 52129,
+    "n_first_late": 3776,
+    "z": 3.28,
+    "p_value": 0.0010384653196196278
+  },
+  "seasonality": {
+    "spike_months": {
+      "2017-11": 0.124,
+      "2018-02": 0.1413,
+      "2018-03": 0.1896
+    },
+    "spike_share_of_orders": 0.2161,
+    "spike_share_of_late_orders": 0.4833,
+    "late_rate_outside_spikes": 0.0446
+  },
+  "cohorts": {
+    "avg_month1_retention": 0.0047,
+    "avg_month1_to_6_retention": 0.0031
+  },
+  "impact": {
+    "late_reviewed_orders": 6381,
+    "excess_negative_reviews_from_lateness": 3392,
+    "all_negative_reviews": 12272,
+    "share_of_negative_reviews_explained_by_lateness": 0.2764,
+    "note": "upper bound if lateness were the only difference between late and on-time orders; the regression shows the gap barely shrinks after controls"
+  }
+}
