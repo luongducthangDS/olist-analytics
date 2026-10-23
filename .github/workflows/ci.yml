@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-build:
+    name: Model Validation & Analytics Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download Olist Public Dataset
+        run: python scripts/get_data.py
+
+      - name: Run Data Model Quality Tests
+        run: pytest -q --junitxml=reports/junit.xml
+
+      - name: Run Econometrics & Build Reports
+        run: |
+          python analysis/run_analysis.py
+          python analysis/build_dashboard.py
+
+      - name: Upload Reports and Power BI Assets
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: olist-analytics-artifacts
+          path: |
+            reports/
+            powerbi/
