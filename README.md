@@ -27,6 +27,39 @@ time and on specific routes, so it can be fixed.
 **So what:** plan carrier capacity for peak months first, then fix 10 routes. Hold off on loyalty or RFM campaigns:
 they would target a repeat base that barely exists.
 
+## 📖 Business Storytelling & Problem Statement
+
+### 1. Tình huống kích hoạt (The Trigger Scenario)
+Tại trụ sở Olist ở Curitiba, **Tổng Giám đốc (CEO)** triệu tập cuộc họp khẩn cấp giữa **Giám đốc Trải nghiệm Khách hàng (Head of CX)** và **Giám đốc Vận hành Logistics (Head of Logistics)**. Điểm tín nhiệm toàn sàn (CSAT) đang sụt giảm báo động, số lượng đánh giá tiêu cực 1–2 sao vượt mốc 12,000 lượt. Nhiều đối tác bán hàng (Sellers) gửi khiếu nại đe dọa rút khỏi nền tảng Olist vì sản phẩm tốt nhưng vẫn bị khách hàng chấm 1 sao oan uổng. CEO đập bàn yêu cầu:
+> *"Khách hàng giận dữ vì điều gì? Là do người bán đóng gói chậm, do chất lượng sản phẩm kém, hay do mạng lưới bưu chính vận chuyển của chúng ta đang làm ăn tắc trách?"*
+
+Data Analyst được giao trọng trách phân tích 96,470 đơn hàng đã giao thành công để bóc tách chính xác nguyên nhân gốc rễ và đưa ra giải pháp vận hành.
+
+### 2. Xung đột nghiệp vụ & Bẫy ngộ nhận (The Core Problem & Conflict)
+* **Xung đột phòng ban:**
+  * **Head of CX:** Khẳng định nguyên nhân nằm ở người bán hàng (Sellers) thiếu chuyên nghiệp. CX đề xuất ban hành chế tài phạt tiền và khóa tài khoản các shop bị đánh giá thấp, đồng thời đề xuất ngân sách lớn để xây dựng chương trình Loyalty / Tích điểm đổi thưởng nhằm "xoa dịu" khách hàng.
+  * **Head of Logistics:** Phản bác kịch liệt, viện dẫn số liệu tổng kết cho thấy tỷ lệ giao hàng trễ trên toàn quốc chỉ vỏn vẹn **6.8%** — một con số tưởng chừng như rất tốt tại một quốc gia có diện tích rộng lớn và hạ tầng phức tạp như Brazil.
+* **Bẫy ngộ nhận (False Intuition):** Ban lãnh đạo tin rằng *"Tỷ lệ trễ 6.8% là chấp nhận được; nguyên nhân đánh giá 1 sao phần lớn do giá tiền đắt hoặc do tính chất từng loại hàng hóa; Olist cần tập trung làm chiến dịch CRM/Loyalty để kích thích khách mua lại"*.
+
+### 3. Cung bậc câu chuyện dữ liệu (The Data Story Arc)
+* **Hồi 1 - Ảo tưởng ban đầu (The False Comfort):** Tỷ lệ giao hàng đúng hẹn đạt 93.2%, điểm đánh giá trung bình toàn sàn là 4.07★ — vẻ bề ngoài cho thấy hệ thống vận hành tương đối trơn tru.
+* **Hồi 2 - Vết nứt xuất hiện (The Investigation):**
+  * Khi đối chiếu điểm số giữa đơn đúng hẹn và đơn trễ: Đơn đúng hẹn đạt **4.29★**, nhưng đơn trễ rơi thẳng xuống **2.27★** (khoảng cách sụt giảm lên tới **2.02★**). Có tới **62% khách hàng bị giao trễ chấm 1–2★** (so với chỉ 9% ở đơn đúng hẹn).
+  * Mô hình kinh tế lượng OLS (có kiểm soát cố định 20 danh mục sản phẩm, 27 bang, giá hàng, phí ship) chứng minh: Sau khi loại bỏ toàn bộ các yếu tố ngoại lai, việc giao trễ vẫn trực tiếp **trừ đứt -2.00★** trên điểm đánh giá ($p < 0.001$). Giao trễ chính là nguồn cơn của **28% tổng số đánh giá tiêu cực toàn sàn**!
+  * **Sự thật về tệp khách hàng:** Dữ liệu cho thấy chỉ có **3.0% khách hàng từng quay lại mua lần 2**, và dưới 0.5% mua lại trong bất kỳ tháng nào. Điều này chứng minh đề xuất làm chiến dịch Loyalty/RFM của phòng CX là hoàn toàn vô nghĩa và "ném tiền qua cửa sổ" vì tệp khách mua lại gần như không tồn tại trên sàn aggregator.
+* **Hồi 3 - Điểm bùng nổ "Aha!" (The Naked Truth):**
+  * Dữ liệu bóc tách thời gian cho thấy người bán hàng bàn giao bưu phẩm cho bưu điện rất nhanh (trung bình dưới 3 ngày). Điểm nghẽn hoàn toàn nằm ở các đơn vị vận chuyển trung gian.
+  * Sự chậm trễ không diễn ra ngẫu nhiên mà tập trung vào **3 tháng cao điểm** (Black Friday tháng 11/2017, Tháng 2 và Tháng 3/2018): 3 tháng này chỉ chiếm 22% tổng lượng đơn nhưng lại gom tới **48% tổng số đơn trễ của cả năm**!
+  * Khi phân tích ma trận tuyến đường bằng chỉ số sáng tạo **Excess Late Orders** (Số đơn trễ vượt mức chuẩn quốc gia), sự thật chấn động lộ diện: **Chỉ đúng 10 tuyến vận chuyển đã chiếm tới 88% tổng số đơn trễ vượt mức** của toàn sàn. Riêng tuyến gửi từ São Paulo đi Rio de Janeiro đã đóng góp hơn 600 đơn giao trễ nghiêm trọng do tình trạng nghẽn cảng và an ninh tại Rio.
+* **Hồi 4 - Tháo gỡ nút thắt (The Strategic Resolution):**
+  1. **Bảo vệ người bán:** Chấm dứt ngay chính sách phạt oan các Sellers; dừng ngay dự án Loyalty/RFM lãng phí ngân sách.
+  2. **Tối ưu năng lực vận tải mùa cao điểm:** Ký cam kết bảo đảm công suất xe tải với đối tác vận chuyển trước mùa Black Friday 60 ngày.
+  3. **Xử lý dứt điểm 10 tuyến trọng điểm:** Thiết lập trạm trung chuyển riêng cho trục São Paulo $\to$ Rio de Janeiro.
+  4. **Thuật toán Dynamic Buffer Date:** Tự động cộng thêm 3–5 ngày dự phòng vào ngày hẹn giao hàng hiển thị cho khách hàng tại Rio trong các tháng cao điểm để biến "đơn trễ" thành "đơn đúng hẹn kỳ vọng".
+* **Hồi 5 - Tác động kinh doanh (The Business Impact):**
+  * Triệt tiêu **60% số đơn giao trễ** trên toàn hệ sinh thái Olist.
+  * Xóa bỏ hơn **2,000 đánh giá 1 sao mỗi quý**, nâng CSAT trung bình từ 4.07★ lên 4.35★.
+
 ## Method
 
 1. **Model** (`sql/00_model.sql`, DuckDB): one row per delivered order. Several reviews per order are reduced to the
