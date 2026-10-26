@@ -13,6 +13,7 @@ def con():
     c.execute("SET enable_progress_bar = false")
     c.execute(f"SET file_search_path = '{ROOT}'")
     c.execute((ROOT / "sql" / "00_model.sql").read_text())
+    c.execute((ROOT / "sql" / "10_powerbi_export.sql").read_text())
     return c
 
 
@@ -52,3 +53,18 @@ def test_headline_numbers_are_reproducible(con):
     """The memo quotes these; if the model changes they must be re-checked."""
     assert one(con, "SELECT count(*) FROM fct_orders") == 96_470
     assert round(one(con, "SELECT avg(is_late::INT) FROM fct_orders"), 4) == 0.0677
+
+
+def test_powerbi_dimensions_have_unique_keys(con):
+    for table, key in [("pbi_dim_state", "state"), ("pbi_dim_category", "category"), ("pbi_dim_date", "date")]:
+        assert one(con, f"SELECT count(*) - count(DISTINCT {key}) FROM {table}") == 0, table
+    assert one(con, "SELECT count(*) FROM pbi_dim_state WHERE region IS NULL") == 0  # every state has a region
+
+
+def test_powerbi_fact_rows_all_find_their_dimension(con):
+    """A key missing from its dimension lands in a '(Blank)' member and breaks every drill-down on that dimension."""
+    assert one(con, "SELECT count(*) FROM pbi_fact_orders") == one(con, "SELECT count(*) FROM fct_orders")
+    for col, table, key in [("customer_state", "pbi_dim_state", "state"),
+                            ("main_category", "pbi_dim_category", "category"),
+                            ("purchase_date", "pbi_dim_date", "date")]:
+        assert one(con, f"SELECT count(*) FROM pbi_fact_orders f ANTI JOIN {table} d ON f.{col} = d.{key}") == 0, col

@@ -61,18 +61,14 @@ out = ROOT / "reports" / "dashboard.html"
 fig.write_html(out, include_plotlyjs="cdn", full_html=True)
 print("wrote", out)
 
-# ---- Power BI export: a small star schema + measures ------------------------------------------------
+# ---- Power BI export: star schema from sql/10_powerbi_export.sql, the same SQL the tests check -------------------
+con.close()
 pbi = ROOT / "powerbi"
 pbi.mkdir(exist_ok=True)
-con.execute(f"""COPY (SELECT order_id, customer_unique_id, customer_state, seller_state, route, main_category,
-                purchase_month, purchased_at::DATE AS purchase_date, delivery_days, days_late, is_late,
-                items, items_value, freight_value, order_value, review_score FROM fct_orders)
-                TO '{pbi / 'fact_orders.csv'}' (HEADER)""")
-con.execute(f"""COPY (SELECT DISTINCT main_category AS category FROM fct_orders ORDER BY 1)
-                TO '{pbi / 'dim_category.csv'}' (HEADER)""")
-con.execute(f"""COPY (SELECT DISTINCT customer_state AS state FROM fct_orders ORDER BY 1)
-                TO '{pbi / 'dim_state.csv'}' (HEADER)""")
-con.execute(f"""COPY (SELECT d::DATE AS date, year(d) AS year, month(d) AS month, date_trunc('month', d)::DATE AS month_start
-                FROM range(DATE '2016-09-01', DATE '2018-09-01', INTERVAL 1 DAY) t(d))
-                TO '{pbi / 'dim_date.csv'}' (HEADER)""")
+exp = duckdb.connect()  # in memory, so the analysis database stays read-only
+exp.execute(f"ATTACH '{ROOT / 'data' / 'olist.duckdb'}' AS olist (READ_ONLY)")
+exp.execute("CREATE TABLE fct_orders AS SELECT * FROM olist.fct_orders")
+exp.execute((ROOT / "sql" / "10_powerbi_export.sql").read_text())
+for table in ["fact_orders", "dim_state", "dim_category", "dim_date"]:
+    exp.execute(f"COPY pbi_{table} TO '{pbi / f'{table}.csv'}' (HEADER)")
 print("wrote Power BI export to", pbi)

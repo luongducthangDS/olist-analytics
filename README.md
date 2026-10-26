@@ -33,7 +33,8 @@ they would target a repeat base that barely exists.
    latest one. The "main" category and seller are taken from the order's most expensive item. Lateness is measured
    in days against the date promised to the customer.
 2. **Checks** (`tests/test_model.py`): one row per order, one review per order, values reconcile with the items
-   table, scores in range, headline numbers reproducible.
+   table, scores in range, headline numbers reproducible; the Power BI export has unique dimension keys and every
+   fact row finds its state, category and date.
 3. **Analysis** (`analysis/run_analysis.py`):
    - Lateness buckets.
    - OLS with HC3 robust errors and a logit with marginal effects, both controlling for 20 categories and 27 states.
@@ -46,14 +47,15 @@ they would target a repeat base that barely exists.
    - `reports/results.json` (every number in this README).
    - `reports/figures/`.
    - `reports/dashboard.html` (interactive Plotly).
-   - `powerbi/`: star-schema CSVs and `measures.dax` for rebuilding the report in Power BI.
+   - `powerbi/`: star schema (`sql/10_powerbi_export.sql`; the state dimension carries state name and region for
+     drill-down), `power_query.m` with fixed types, `measures.dax`, and a [rebuild guide](powerbi/README.md).
 
 ## Run it
 
 ```bash
 pip install -r requirements.txt
 python scripts/get_data.py              # ~120 MB from the official olist/work-at-olist-data repo
-pytest -q                               # 7 model checks
+pytest -q                               # 9 checks: model + Power BI export
 python analysis/run_analysis.py         # -> reports/results.json + figures
 python analysis/build_dashboard.py      # -> reports/dashboard.html + powerbi/*.csv
 ```
@@ -67,6 +69,9 @@ python analysis/build_dashboard.py      # -> reports/dashboard.html + powerbi/*.
 - **Why is this "strong association" and not "proof"?** Lateness is not randomly assigned. The controls rule out the
   obvious confounders (category, price, region), and the gap does not shrink. Only an experiment, for example a
   voucher for late orders, would prove that fixing lateness brings customers back.
+- **Why does `Excess Late Orders` remove filters from `dim_state` and not only from `fact_orders[customer_state]`?**
+  A filter on a dimension reaches the fact table through the relationship. Clearing the fact column leaves it in
+  place, so the "national" rate silently becomes the state's own rate and every state shows 0.
 - **Why not RFM?** With 97 % one-time buyers, "F" is 1 for almost everyone. Recency × monetary, or simply first-order
   experience, is the more useful segmentation.
 
