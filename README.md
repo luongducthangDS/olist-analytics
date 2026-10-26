@@ -71,12 +71,17 @@
   * *Sáng tạo chỉ số Excess Late Orders:* Thay vì dùng tỷ lệ trễ thô (dễ bị nhiễu bởi các tuyến ít đơn), sử dụng công thức:
     $$\text{Excess Late Orders} = \text{Actual Late Orders} - (\text{Route Total Orders} \times \text{National Late Rate})$$
 
+![Monthly Seasonality & Bottleneck Spikes](reports/figures/04_monthly_late_spikes.png)
+
 ---
 
 # GIAI ĐOẠN 3 — INSIGHTS & STORYTELLING
 
 ### 07. Findings & Root Cause Analysis
 1. **Dose-Response Effect (Liều lượng trễ):** Trễ 1–3 ngày điểm đánh giá giảm xuống **3.29★**; trễ 4–7 ngày rơi xuống **2.10★**; trễ từ 8 ngày trở lên chỉ còn **1.70★** (81.6% chấm 1–2 sao).
+
+![Review Score Collapse Dose-Response](reports/figures/01_review_by_lateness.png)
+
 2. **Attribution Share:** Giao hàng trễ chỉ chiếm 6.8% số đơn nhưng lại là nguồn cơn của **28.0% tổng số đánh giá tiêu cực toàn sàn** (3,392 trên 12,272 review 1–2★).
 3. **Ảo tưởng chương trình Loyalty:** Chỉ có **3.0% khách hàng từng mua lại lần 2** trên Olist, và dưới 0.5% mua lại trong bất kỳ tháng nào. Khách hàng xem sàn như một kênh mua sắm tiện ích một lần; do đó dự án Loyalty của phòng CX hoàn toàn lãng phí ngân sách vì không có tập khách hàng lặp lại để nuôi dưỡng.
 4. **Điểm nghẽn tập trung cao độ:**
@@ -84,11 +89,15 @@
    * **3 tháng cao điểm** (Black Friday tháng 11/2017, Tháng 2 và Tháng 3/2018) chiếm 22% đơn nhưng gom tới **48% tổng số đơn trễ cả năm**.
    * **10 tuyến vận chuyển trọng điểm chiếm 88% tổng số đơn trễ vượt mức toàn quốc**, đứng đầu là trục São Paulo $\to$ Rio de Janeiro (vượt hơn 600 đơn trễ do vấn đề an ninh và cảng Rio).
 
+![Late Delivery Rate by Customer State](reports/figures/02_late_rate_by_state.png)
+
 ### 08. Data Visualization & Dashboard Features
-* **Visual 1 (Dose-Response Line Chart):** Đường cong sụt giảm điểm đánh giá theo từng dải số ngày giao trễ.
-* **Visual 2 (Route Scatter & Bar Chart):** Top 10 tuyến vận chuyển theo chỉ số Excess Late Orders.
-* **Visual 3 (Monthly Lateness Spike):** Biểu đồ thể hiện đột biến đơn trễ vào 3 tháng cao điểm.
-* **Visual 4 (Repeat Purchase Gap Bar):** So sánh tỷ lệ mua lại 180D giữa khách hàng đúng hẹn (4.05%) vs khách giao trễ (2.97%).
+* **Visual 1 (Dose-Response Line Chart):** Đường cong sụt giảm điểm đánh giá theo từng dải số ngày giao trễ (`reports/figures/01_review_by_lateness.png`).
+* **Visual 2 (State Late Rate Bar):** Xếp hạng tỷ lệ giao trễ theo 10 bang cao nhất (`reports/figures/02_late_rate_by_state.png`).
+* **Visual 3 (Excess Late Bottleneck Corridors):** Top 10 tuyến bưu chính gây trễ vượt mức (`reports/figures/03_excess_late_routes.png`).
+* **Visual 4 (Monthly Seasonality Spike):** Đột biến đơn trễ vào Black Friday và quý 1 (`reports/figures/04_monthly_late_spikes.png`).
+
+![Top Freight Corridors by Excess Late Orders](reports/figures/03_excess_late_routes.png)
 
 ### 09. Standardized 5-Step Storytelling
 

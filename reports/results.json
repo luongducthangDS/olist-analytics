@@ -184,12 +184,12 @@
     "customers_overall": 93350,
     "repeat_rate_overall": 0.03,
     "eligible_customers_180d": 55905,
-    "repeat_rate_first_on_time": 0.0405,
-    "repeat_rate_first_late": 0.0297,
-    "n_first_on_time": 52129,
-    "n_first_late": 3776,
-    "z": 3.28,
-    "p_value": 0.0010384653196196278
+    "repeat_rate_first_on_time": 0.0404,
+    "repeat_rate_first_late": 0.0307,
+    "n_first_on_time": 52125,
+    "n_first_late": 3780,
+    "z": 2.947,
+    "p_value": 0.0032084607789201846
   },
   "seasonality": {
     "spike_months": {
